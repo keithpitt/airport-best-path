@@ -127,7 +127,7 @@ int main (int argc, char* argv[]) {
 			cout << "***Best Path Found***\n";
 
 			cout << "Starting airport: " << origin->getCode() << "\n";
-			cout << "Starting time: " << path->getStartingTime() << "\n";
+			cout << "Starting time: " << path->getDepartureTime() << "\n";
 			cout << "Arrival time: " << path->getArrivalTime() << "\n";
 			cout << "Path duration: " << path->getPathDuration() << "\n";
 			cout << "Path details:\n";

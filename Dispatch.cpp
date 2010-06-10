@@ -88,30 +88,14 @@ Airport * Dispatch::findAirportByCode(string airportCode) {
 }
 
 Path * Dispatch::route(Airport * fromAirport, Airport * toAirport, string departureTime) {
-
-	vector <Path *> paths;
-
-	Path * path;
-
-	int departureTimeMinutes = convertToMinutes(departureTime);
-
-	vector <Flight *> flights = fromAirport->findNextFlightTo(toAirport, departureTimeMinutes);
-	for(int i = 0, l = flights.size(); i < l; i++) {
-		path = new Path(departureTime);
-		path->addFlight(flights[i]);
-		paths.push_back(path);
-	}
-	
-	// Find the shortest path.
-	path = NULL;
+	vector <Path *> paths = fromAirport->findPathTo(toAirport, convertToMinutes(departureTime));
+	Path * path = NULL;
 	for(int x = 0, xl = paths.size(); x < xl; x++) {
 		if(path == NULL || (path && path->getTotalTime() > paths[x]->getTotalTime())) {
 			path = paths[x];
 		}
 	}
-	
 	return path;
-
 }
 
 

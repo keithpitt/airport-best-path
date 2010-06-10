@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "Path.h"
 
 using namespace std;
 
@@ -18,6 +19,8 @@ class Airport {
 
 		vector <Flight *> departures;
 		vector <Flight *> arrivals;
+
+    void findPathSegment(vector <Flight *> &connections, Flight * &flight, Airport * &destination);
 
 	public:
 
@@ -35,7 +38,9 @@ class Airport {
 		void addDepartingFlight(Flight * departure);
 		void addArrivingFlight(Flight * arrival);
 
-		vector <Flight*> findNextFlightTo(Airport * destination, int startingTimeMinutes);
+		vector <Flight*> findNextFlightsTo(Airport * destination, int startingTimeMinutes);
+		vector <Flight*> findNextFlights(int startingTimeMinutes);
+		vector <Path*> findPathTo(Airport * destination, int startingTimeMinutes);
 
 		bool operator == (Airport *);
 

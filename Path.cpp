@@ -5,36 +5,12 @@
 #include <iostream>
 #include <stdio.h>
 
-Path::Path(string startTime) {
-	this->startingTime = startTime;
-};
-
-Path::Path(int startTimeMinutes) {
-	this->startingTime = formatMinutes(startTimeMinutes);
-};
-
-Path::Path(Path * other) {
-  this->startingTime = other->getStartingTime();
-  vector <Flight*> flights = other->getFlights();
-	for(int i = 0, l = flights.size(); i < l; i++) {
-    this->addFlight(flights[i]);
-  }
+Path::Path(vector <Flight *> connections) {
+  flights = connections;
 }
 
 vector <Flight *> Path::getFlights() {
 	return flights;
-};
-
-void Path::addFlight(Flight * flight) {
-	flights.push_back(flight);
-};
-
-void Path::removeLastFlight() {
-	flights.pop_back();
-};
-
-void Path::clearFlights() {
-  flights.clear();
 };
 
 string Path::getDepartureTime() {
@@ -61,10 +37,6 @@ string Path::getPathDuration() {
   }
 };
 
-string Path::getStartingTime() {
-	return this->startingTime;
-};
-
 int Path::getTotalTime() {
 	int totalTime = 0;
 	for(int i = 0, l = flights.size(); i < l; i++) {
@@ -74,9 +46,5 @@ int Path::getTotalTime() {
 		}
 	}
 	return totalTime;
-};
-
-int Path::getStartingTimeMinutes() {
-	return convertToMinutes(startingTime);
 };
 

@@ -8,6 +8,10 @@ clean:
 					rm -f *.o
 					rm assign3
 
+test:
+					
+					./assign3 data.txt BP PER KNS 7:00
+
 assign3:			main.o Airport.o Flight.o Dispatch.o Path.o Utilities.o
 					$(CC) $(LDFLAGS) -o assign3 \
 										main.o \

@@ -9,26 +9,17 @@ class Path {
 
 	private:
 		
-		string startingTime;
 		vector <Flight *> flights;
 
 	public:
 
-		Path(string startTime);
-		Path(int startTimeMinutes);
-    Path(Path * other);
+    Path(vector <Flight *> connections);
 
 		string getDepartureTime();
 		string getArrivalTime();
 		string getPathDuration();
-		string getStartingTime();
 
-		int getStartingTimeMinutes();
 		int getTotalTime();
-
-		void addFlight(Flight *);
-		void clearFlights();
-		void removeLastFlight();
 
 		vector <Flight *> getFlights();
 

@@ -88,7 +88,7 @@ Airport * Dispatch::findAirportByCode(string airportCode) {
 }
 
 Path * Dispatch::route(Airport * fromAirport, Airport * toAirport, string departureTime) {
-	vector <Path *> paths = fromAirport->findPathTo(toAirport, convertToMinutes(departureTime));
+	vector <Path *> paths = fromAirport->findPathsTo(toAirport, convertToMinutes(departureTime));
 	Path * path = NULL;
 	for(int x = 0, xl = paths.size(); x < xl; x++) {
 		if(path == NULL || (path && path->getTotalTime() > paths[x]->getTotalTime())) {

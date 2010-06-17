@@ -76,52 +76,51 @@ vector <Flight*> Airport::findNextFlights(int startingTimeMinutes) {
 	return flights;
 };
 
-vector <Path*> Airport::findPathTo(Airport * destination, int startingTimeMinutes) {
-
+vector <Path*> Airport::findPathsTo(Airport * destination, int startingTimeMinutes) {
   vector <Path *> paths;
-  vector <Flight *> departures = findNextFlights(startingTimeMinutes);
+  vector <Flight *> flights;
+  findPathSegment(paths, flights, this, destination, startingTimeMinutes);
+  return paths;
+};
+
+void Airport::findPathSegment(vector <Path * > &paths, vector <Flight * > flights, Airport * currentAirport, Airport * destination, int currentTime) {
+
+  vector <Flight *> departures = currentAirport->findNextFlights(currentTime);
+  bool lastTry = false;
+
+  if(departures.size() == 0) {
+    departures = currentAirport->findNextFlights(0);
+    lastTry = true;
+  }
 
   for(int i = 0, l = departures.size(); i < l; i++) {
 
+    int time = currentTime;
+    Airport * arrival = departures[i]->getArrivingAirport();
     vector <Flight *> connections;
 
-    findPathSegment(connections, departures[i], destination);
+    if(time < departures[i]->getDepartureTimeMinutes()) {
+      time = departures[i]->getDepartureTimeMinutes();
+    }
 
-    if(connections.size() > 0) {
-      Path * path = new Path(startingTimeMinutes);
-      for(int x = (connections.size() - 1); x > 0; x--) {
-        path->addFlight(connections[x]);
-      } 
-      paths.push_back(path);
+    time = time + departures[i]->getFlightDurationMinutes() + currentAirport->getConnectionTimeMinutes();
+
+    for(int x = 0, xl = flights.size(); x < xl; x++) {
+      connections.push_back(flights[x]);
+    }
+    connections.push_back(departures[i]);
+
+    if(arrival == destination) {
+      paths.push_back(new Path(connections));
+    } else if(lastTry == false) {
+      findPathSegment(paths, connections, arrival, destination, (time > 24 * 60) ? 0 : time);
     }
 
   }
-
-  return paths;
-
-};
-
-void Airport::findPathSegment(vector <Flight *> &connections, Flight * &flight, Airport * &destination) {
-
-  if(flight->getArrivingAirport() == destination) {
-    connections.push_back(flight);
-  } else {
-    Airport * arivalAirport = flight->getArrivingAirport();
-    vector <Flight *> departures = arivalAirport->findNextFlights(flight->getDepartureTimeMinutes() + arivalAirport->getConnectionTimeMinutes());
-    cout << "Debugger: Looking at flights from " << arivalAirport->getCode() << "\n";
-    for(int i = 0, l = departures.size(); i < l; i++) {
-      cout << "Debugger: -- " << departures[i]->getArrivingAirport()->getCode() << "\n";
-      findPathSegment(connections, departures[i], destination);
-    }
-    if(connections.size() > 0) {
-      connections.push_back(flight);
-    }
-  }
-
+  
 }
 
-bool Airport::operator== (Airport *) {
-	return true;
+bool Airport::operator== (Airport * airport) {
+	return this->getCode() == airport->getCode();
 };
-
 

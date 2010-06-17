@@ -20,7 +20,7 @@ class Airport {
 		vector <Flight *> departures;
 		vector <Flight *> arrivals;
 
-    void findPathSegment(vector <Flight *> &connections, Flight * &flight, Airport * &destination);
+    void findPathSegment(vector <Path * > &paths, vector <Flight * > flights, Airport * currentAirport, Airport * destination, int currentTime);
 
 	public:
 
@@ -40,9 +40,9 @@ class Airport {
 
 		vector <Flight*> findNextFlightsTo(Airport * destination, int startingTimeMinutes);
 		vector <Flight*> findNextFlights(int startingTimeMinutes);
-		vector <Path*> findPathTo(Airport * destination, int startingTimeMinutes);
+		vector <Path*> findPathsTo(Airport * destination, int startingTimeMinutes);
 
-		bool operator == (Airport *);
+		bool operator == (Airport * airport);
 
 };
 

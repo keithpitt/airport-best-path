@@ -33,8 +33,8 @@ int Dispatch::import(char fileName[]) {
 	int numberOfFlights = atoi(lines[1 + numberOfAirports].c_str());
 	int tmp = 1;
 	
-	cout << "Debugger: Number of airports: " << numberOfAirports << "\n";
-	cout << "Debugger: Number of flights: " << numberOfFlights << "\n";
+	// cout << "Debugger: Number of airports: " << numberOfAirports << "\n";
+	// cout << "Debugger: Number of flights: " << numberOfFlights << "\n";
 
 	Airport * airport;
 	string code, description, connectionTime;	

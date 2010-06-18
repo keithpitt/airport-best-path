@@ -14,7 +14,13 @@ string formatMinutes(int time) {
 	char buffer[5];
 	int hours = time / 60;
 	int minutes = time - (hours * 60);
-	sprintf(buffer, "%02d:%02d", hours, minutes);
+	int days = hours / 24;
+	hours = hours - (days * 24);
+	if(days > 0) {
+		sprintf(buffer, "%d %02d:%02d", days, hours, minutes);
+	} else {
+		sprintf(buffer, "%02d:%02d", hours, minutes);
+	}
 	return buffer;
 }
 

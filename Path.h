@@ -10,11 +10,15 @@ class Path {
 	private:
 		
 		vector <Flight *> flights;
+    int startingTimeMinutes;
 
 	public:
 
     Path(vector <Flight *> connections);
 
+		void setStartTime(int startTime);
+
+		string getStartingTime();
 		string getDepartureTime();
 		string getArrivalTime();
 		string getPathDuration();

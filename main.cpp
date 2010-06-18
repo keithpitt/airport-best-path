@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
-
 #include "Airport.h"
 #include "Flight.h"
 #include "Dispatch.h"
@@ -18,7 +17,7 @@ int main (int argc, char* argv[]) {
 		return 1;
 	}
 
-	cout << "Debugger: Runnnig dispatch with " << argc << " arguments\n";
+	// cout << "Debugger: Runnnig dispatch with " << argc << " arguments\n";
 
 	Dispatch * dispatch = new Dispatch();
 	int result = dispatch->import(argv[1]);	
@@ -29,7 +28,7 @@ int main (int argc, char* argv[]) {
 
 	string commandToRun = argv[2];
 
-	cout << "Debugger: Running command `" << commandToRun << "`\n";
+	// cout << "Debugger: Running command `" << commandToRun << "`\n";
 
 	if(commandToRun == "NFF") {
 
@@ -127,7 +126,7 @@ int main (int argc, char* argv[]) {
 			cout << "***Best Path Found***\n";
 
 			cout << "Starting airport: " << origin->getCode() << "\n";
-			cout << "Starting time: " << path->getDepartureTime() << "\n";
+			cout << "Starting time: " << path->getStartingTime() << "\n";
 			cout << "Arrival time: " << path->getArrivalTime() << "\n";
 			cout << "Path duration: " << path->getPathDuration() << "\n";
 			cout << "Path details:\n";

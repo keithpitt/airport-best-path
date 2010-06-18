@@ -77,46 +77,49 @@ vector <Flight*> Airport::findNextFlights(int startingTimeMinutes) {
 };
 
 vector <Path*> Airport::findPathsTo(Airport * destination, int startingTimeMinutes) {
-  vector <Path *> paths;
-  vector <Flight *> flights;
-  findPathSegment(paths, flights, this, destination, startingTimeMinutes);
-  return paths;
+	vector <Path *> paths;
+	vector <Flight *> flights;
+	findPathSegment(paths, flights, this, destination, startingTimeMinutes);
+	for(int i = 0, l = paths.size(); i < l; i++) {
+    paths[i]->setStartTime(startingTimeMinutes);
+  }
+	return paths;
 };
 
-void Airport::findPathSegment(vector <Path * > &paths, vector <Flight * > flights, Airport * currentAirport, Airport * destination, int currentTime) {
+void Airport::findPathSegment(vector <Path * > &paths, vector <Flight * > flights, Airport * currentAirport, Airport * 	destination, int currentTime) {
+	vector <Flight *> departures = currentAirport->findNextFlights(currentTime);
+	bool lastTry = false;
 
-  vector <Flight *> departures = currentAirport->findNextFlights(currentTime);
-  bool lastTry = false;
+	if(departures.size() == 0) {
+		departures = currentAirport->findNextFlights(0);
+		lastTry = true;
+	}
 
-  if(departures.size() == 0) {
-    departures = currentAirport->findNextFlights(0);
-    lastTry = true;
-  }
+	for(int i = 0, l = departures.size(); i < l; i++) {
 
-  for(int i = 0, l = departures.size(); i < l; i++) {
+		int time = currentTime;
+		Airport * arrival = departures[i]->getArrivingAirport();
+		vector <Flight *> connections;
 
-    int time = currentTime;
-    Airport * arrival = departures[i]->getArrivingAirport();
-    vector <Flight *> connections;
-
-    if(time < departures[i]->getDepartureTimeMinutes()) {
-      time = departures[i]->getDepartureTimeMinutes();
-    }
+		if(time < departures[i]->getDepartureTimeMinutes()) {
+			time = departures[i]->getDepartureTimeMinutes();
+		}
 
     time = time + departures[i]->getFlightDurationMinutes() + currentAirport->getConnectionTimeMinutes();
 
-    for(int x = 0, xl = flights.size(); x < xl; x++) {
-      connections.push_back(flights[x]);
-    }
-    connections.push_back(departures[i]);
+		for(int x = 0, xl = flights.size(); x < xl; x++) {
+			connections.push_back(flights[x]);
+		}
+		
+		connections.push_back(departures[i]);
 
-    if(arrival == destination) {
-      paths.push_back(new Path(connections));
-    } else if(lastTry == false) {
-      findPathSegment(paths, connections, arrival, destination, (time > 24 * 60) ? 0 : time);
-    }
+		if(arrival == destination) {
+			paths.push_back(new Path(connections));
+		} else if(lastTry == false) {
+			findPathSegment(paths, connections, arrival, destination, (time > 24 * 60) ? 0 : time);
+		}
 
-  }
+	}
   
 }
 
